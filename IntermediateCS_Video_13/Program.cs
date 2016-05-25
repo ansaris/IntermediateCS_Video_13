@@ -2,6 +2,8 @@
 
 class FieldExample
 {
+    public const int MyConstant = 123;
+    
     // A field declaration is like a local variable declaration...
 
     string name = "Eric";
@@ -29,7 +31,7 @@ class FieldExample
         // Fields that are not initialized automatically get a default
 
         Console.WriteLine(this.dollars);
-        //this.dollars = dollars;
+
         // ... except...
 
         // Notice that we have a parameter and a field both called "dollars".
@@ -38,10 +40,56 @@ class FieldExample
 
         // It's a good practice to ensure that every field is initialized,
         // either in its declaration or in a constructor.
-    }
 
-    static void Main()
+        this.dollars = dollars; // field <-- value of parameter
+
+        // A static field can be accessed through the name of hte type:
+
+        Console.WriteLine(FieldExample.count);
+
+        // but again, that is optional when inside the type:
+        count = count + 1;
+
+        // A static field may not be accessed through "this" because it is not
+        // associated with the instance:
+
+        // Console.WriteLine(this.count);
+    }
+}
+
+class Program
+{ 
+    static void Main(string[] args)
     {
-        FieldExample test = new FieldExample(55);
+        var example = new FieldExample(123.45m);
+
+        // By default, fields may not be accessed from outside the class:
+
+        //Console.WriteLine(example.name);
+        //Console.WriteLine(FieldExample.count);
+
+        // We'll look at how to change the accessibility in a future video, but
+        // fields are almost always left inaccessible. This is part of the
+        // "encapsulation" strategy of OOP.
+
+        // Let's create a second instance variable:
+
+        var another = new FieldExample(456.78m);
+
+        // Though we cannot access the fields from outside the class, the debugger can.
+
+        // Constant fields are not variables. They must be intialized, and the initialization
+        // must itself be entirely constants. Constant fields are automatically static.
+
+        // Constants are sometimes accessible from outside the class.
+
+        Console.WriteLine(FieldExample.MyConstant);
+
+        Console.WriteLine(Math.PI);
+
+        // Using ALL CAPS was an error here; Java uses ALL CAPS for constants but C# does not.
+
+        // Readonly fields are variables but they can only be written in an intializer
+        // or in the constructor.
     }
 }
